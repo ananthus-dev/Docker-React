@@ -1,0 +1,9 @@
+sudo: required #need super user permissions
+services:
+  - docker #install docker cli
+
+before_install: #run before running tests or deploying build
+  - docker build -t ananthus123/docker-react -f Dockerfile.dev . #tag can be anything
+
+script: #contains the series of commands that needs to be executed
+  - docker run -e CI=true ananthus123/docker-react npm run test
