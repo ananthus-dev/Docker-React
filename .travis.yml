@@ -7,3 +7,15 @@ before_install: #run before running tests or deploying build
 
 script: #contains the series of commands that needs to be executed
   - docker run -e CI=true ananthus123/docker-react npm run test
+
+deploy:
+  provider: elasticbeanstalk
+  region: "us-east-2" #AWS region. can be obtained from our application's beanstalk url
+  app: "docker-react" #obtained from beanstalk application we created
+  env: "Dockerreact-env" #obtained from beanstalk environment we created
+  bucket_name: "elasticbeanstalk-us-east-2-732260654783" #Travis CI will put the code in this bucket. obtained from the s3 buckets section. created automatically by beanstalk
+  bucket_path: "docker-react" #same as app name
+  on:
+    branch: main #github main branch
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: "$AWS_SECRET_KEY" #create env variables in travis with these names
